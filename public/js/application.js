@@ -2,10 +2,10 @@ define([
     'socket',
     'message',
     'views/nav'
-], function (Socket, Message, NavView) {
+], function(Socket, Message, NavView) {
     var instance,
         Application = {
-            initialize: function (router) {
+            initialize: function(router) {
                 this.$body = $('body');
                 this.$container = $('#container');
                 this.router = router;
@@ -13,15 +13,21 @@ define([
                     el: $('#navbar')
                 });
                 this.navView.render();
-                this.router.on('viewChange', function (view, options) {
+                this.router.on('viewChange', function(view, options) {
                     this.setCurrentView(view, options);
                     this.navView.trigger('route');
                 }, this);
                 Socket.initialize();
                 Message.initialize($('#message'));
+                Socket.socket.on('message', function(data) {
+                    Message.alert({
+                        title: 'Message',
+                        body: data
+                    });
+                });
                 this.router.start();
             },
-            setCurrentView: function (View, options) {
+            setCurrentView: function(View, options) {
                 if(this.currentView) {
                     this.currentView.undelegateEvents();
                     this.currentView.stopListening();

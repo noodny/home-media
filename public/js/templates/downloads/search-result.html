@@ -2,5 +2,6 @@
     <h5><%= model.get('name') %></h5>
     <span><i class="glyphicon glyphicon-hdd"></i> <%= model.getSize() %></span>
     <span><i class="glyphicon glyphicon-calendar"></i> <%= model.getDate() %></span>
+    <span><i class="glyphicon glyphicon-user"></i> <%= model.get('seeds') %></span>
     <a href="#" class="btn btn-primary download-item" data-hash="<%= model.get('hash') %>" data-url="<%= model.get('url') %>"><i class="glyphicon glyphicon-download-alt" title="download"></i></a>
 </li>

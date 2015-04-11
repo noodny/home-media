@@ -7,7 +7,8 @@ define(['utils'], function(utils) {
                 date: data.pubDate,
                 size: data.size,
                 url: data.torrentLink,
-                hash: data.hash.toLowerCase()
+                hash: data.hash.toLowerCase(),
+                seeds: data.seeds
             };
         },
         getDate: function() {

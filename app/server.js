@@ -2,6 +2,7 @@ var restify = require('restify'),
     _ = require('lodash'),
     socketio = require('socket.io'),
     Terminal = require('./terminal.js'),
+    Subtitles = require('./subtitles.js'),
     Downloads = new (require('./downloads.js'))();
 
 
@@ -54,6 +55,11 @@ Server.prototype = {
 
         Downloads.on('status', function(data) {
             this.io.sockets.emit('downloads:status', data)
+        }.bind(this));
+
+        Downloads.on('finished', function(torrent) {
+            this.io.sockets.emit('message', 'Torrent ' + torrent.name + ' finished downloading.')
+            console.log(torrent);
         }.bind(this));
 
         this.restify.listen(this.config.server.port);
