@@ -1,30 +1,41 @@
 define([
     'socket',
     'message',
-    'views/nav'
-], function(Socket, Message, NavView) {
+    'views/nav',
+    'views/player'
+], function(Socket, Message, NavView, PlayerView) {
     var instance,
         Application = {
             initialize: function(router) {
                 this.$body = $('body');
                 this.$container = $('#container');
+
                 this.router = router;
-                this.navView = new NavView({
-                    el: $('#navbar')
-                });
-                this.navView.render();
                 this.router.on('viewChange', function(view, options) {
                     this.setCurrentView(view, options);
                     this.navView.trigger('route');
                 }, this);
-                Socket.initialize();
+
                 Message.initialize($('#message'));
+
+                Socket.initialize();
                 Socket.socket.on('message', function(data) {
                     Message.alert({
                         title: 'Message',
                         body: data
                     });
                 });
+
+                this.navView = new NavView({
+                    el: $('#navbar')
+                });
+                this.navView.render();
+
+                this.playerView = new PlayerView({
+                    el: $('#player')
+                });
+                this.playerView.render();
+
                 this.router.start();
             },
             setCurrentView: function(View, options) {

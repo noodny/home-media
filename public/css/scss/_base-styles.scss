@@ -9,8 +9,13 @@ html, body, #content {
 
 body {
     min-width: 320px;
+}
+
+#container {
+    padding-bottom: 81px;
     padding-top: 81px;
 }
+
 .view {
     text-align: left;
 }

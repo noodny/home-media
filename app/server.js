@@ -3,7 +3,9 @@ var restify = require('restify'),
     socketio = require('socket.io'),
     Terminal = require('./terminal.js'),
     Subtitles = require('./subtitles.js'),
-    Downloads = new (require('./downloads.js'))();
+    Downloads = new (require('./downloads.js'))(),
+    Movies = new (require('./movies.js'))(),
+    Player = new (require('./player.js'))();
 
 
 var Server = function(config) {
@@ -23,6 +25,13 @@ Server.prototype = {
         this.restify.get('/downloads/', function(req, res, next) {
             res.send(200, Downloads.get()).end();
             next();
+        });
+
+        this.restify.get('/movies/', function(req, res, next) {
+            Movies.get(function(movies) {
+                res.send(200, movies).end();
+                next();
+            });
         });
 
         this.restify.post('/downloads/add', function(req, res, next) {
@@ -63,6 +72,10 @@ Server.prototype = {
             Subtitles.download(torrent);
         }.bind(this));
 
+        Player.on('status', function(data) {
+            this.io.sockets.emit('player:status', data)
+        }.bind(this));
+
         this.restify.listen(this.config.server.port);
 
         console.log('Server listening on port ' + this.config.server.port);
@@ -79,11 +92,12 @@ Server.prototype = {
 
         //socket.on('library:get');
         //
-        //socket.on('player:pause');
-        //socket.on('player:play');
+        socket.on('player:pause', Player.pause.bind(Player));
+        socket.on('player:play', Player.play.bind(Player));
         //socket.on('player:stop');
         //socket.on('player:forward');
         //socket.on('player:backward');
+        socket.on('player:open', Player.open.bind(Player));
 
         socket.on('downloads:remove', Downloads.remove.bind(Downloads));
         socket.on('downloads:start', Downloads.start.bind(Downloads));

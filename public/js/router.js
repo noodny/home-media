@@ -1,15 +1,14 @@
 define([
-    'views/library',
+    'views/movies',
     'views/downloads',
     'views/error'
-], function(LibraryView, DownloadsView, ErrorView) {
-    var instance,
-        Router = Backbone.Router.extend({
+], function(MoviesView, DownloadsView, ErrorView) {
+    var Router = Backbone.Router.extend({
         routes: {
             "": "home",
             "!": "home",
             "!/": "home",
-            "!/library": "library",
+            "!/movies": "movies",
             "!/downloads(/search)(/:query)": "downloads",
             "*error": "error"
         },
@@ -25,8 +24,8 @@ define([
             });
         },
 
-        library: function() {
-            this.trigger('viewChange', LibraryView);
+        movies: function() {
+            this.trigger('viewChange', MoviesView);
         },
 
         downloads: function(query) {

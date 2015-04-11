@@ -1,0 +1,10 @@
+<li class="media">
+    <div class="media-left">
+        <img class="media-object" width="100px" src="<%= model.get('thumbnail') %>" alt="">
+    </div>
+    <div class="media-body">
+        <h4 class="media-heading"><%= model.get('title') %></h4>
+        <%= model.get('rating') %>
+        <a href="#" class="btn btn-default item-play" data-id="<%= model.get('id') %>"><i class="glyphicon glyphicon-play"></i></a>
+    </div>
+</li>
