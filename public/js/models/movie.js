@@ -5,7 +5,7 @@ define(['utils'], function(utils) {
             return {
                 title: data.label,
                 id: data.movieid,
-                rating: data.rating,
+                rating: Math.round(data.rating * 100)/100,
                 thumbnail: this.parseImageUrl(data.thumbnail),
                 imdb: data.imdbnumber
             }
