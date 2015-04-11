@@ -1,6 +1,6 @@
 define(function(){
     return {
         apiUrl: '/',
-        messagesApiUrl: 'localhost:8080'
+        socketsUrl: 'localhost:8080'
     }
 });

@@ -1,0 +1,39 @@
+<li class="list-group-item" data-id="<%= model.get('id') %>">
+    <div class="progress">
+        <div class="progress-bar<%= model.isActive() || model.isFinished() ? ' progress-bar-success' : '' %>"
+             style="width: <%= model.getPercent() %>%;">
+            <span><%= model.getPercent() %>%</span>
+        </div>
+    </div>
+    <div class="item-details">
+        <h4><%= model.get('name') %></h4>
+        <a href="#" class="btn btn-danger btn-sm item-remove">
+            <i class="glyphicon glyphicon-remove"></i>
+            <i class="glyphicon glyphicon-cog glyphicon-rotate"></i>
+        </a>
+
+        <% if(!model.isFinished()) { %>
+        <div class="controls">
+            <a href="#" class="btn btn-default item-toggle">
+                <% if(model.isActive()) { %>
+                <i class="glyphicon glyphicon-pause"></i>
+                <% } else { %>
+                <i class="glyphicon glyphicon-play"></i>
+                <% } %>
+                <i class="glyphicon glyphicon-cog glyphicon-rotate"></i>
+            </a>
+        </div>
+        <% } %>
+
+        <% if(!model.isFinished()) { %>
+        <div class="status">
+            <span class="size-total"><i class="glyphicon glyphicon-hdd"
+                                        title="total size"></i> <%= model.getSize() %></span><%
+            if(model.isActive()) { %><br/>
+            <span class="speed"><i class="glyphicon glyphicon-arrow-down" title="download speed"></i> <%= model.getSpeed() %></span>
+            <span class="time-left"><i class="glyphicon glyphicon-time" title="time left"></i> <%= model.getTimeLeft() %></span>
+            <% } %>
+        </div>
+        <% } %>
+    </div>
+</li>

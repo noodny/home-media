@@ -15,13 +15,46 @@ Server.prototype = {
     initialize: function() {
         this.sessions = {};
         this.restify = restify.createServer();
-        this.io = socketio.listen(this.restify);
+        this.restify.use(new restify.bodyParser());
+
+        this.io = socketio.listen(this.restify.server);
+
+        this.restify.get('/downloads/', function(req, res, next) {
+            res.send(200, Downloads.get()).end();
+            next();
+        });
+
+        this.restify.post('/downloads/add', function(req, res, next) {
+            Downloads.add({
+                url: req.params.url,
+                hash: req.params.hash
+            }, function(err, data) {
+                if(err) {
+                    res.send(err.status || 500, {message: err.message}).end();
+                } else {
+                    res.send(200).end();
+                }
+                next();
+            });
+        });
+
+        this.restify.get('/downloads/search/:query', function(req, res, next) {
+            Downloads.search(req.params.query, function(data) {
+                res.send(200, data).end();
+                next();
+            });
+        });
 
         this.restify.get(/.*/, restify.serveStatic({
             directory: './public',
             default: 'index.html'
         }));
+
         this.io.sockets.on('connection', this.onSocketConnection.bind(this));
+
+        Downloads.on('status', function(data) {
+            this.io.sockets.emit('downloads:status', data)
+        }.bind(this));
 
         this.restify.listen(this.config.server.port);
 
@@ -29,8 +62,9 @@ Server.prototype = {
     },
 
     onSocketConnection: function(socket) {
-        if(typeof this.sessions[socket.id] === 'undefined') {
-            this.sessions[socket.id] = {
+        var socketId = parseInt(socket.id);
+        if(typeof this.sessions[socketId] === 'undefined') {
+            this.sessions[socketId] = {
                 terminal: new Terminal(),
                 busy: false
             }
@@ -43,16 +77,14 @@ Server.prototype = {
         //socket.on('player:stop');
         //socket.on('player:forward');
         //socket.on('player:backward');
-        //
-        //socket.on('downloads:get');
-        //socket.on('downloads:search');
-        //socket.on('downloads:add');
 
-        Downloads.on('status', socket.emit('downloads:status'));
+        socket.on('downloads:remove', Downloads.remove.bind(Downloads));
+        socket.on('downloads:start', Downloads.start.bind(Downloads));
+        socket.on('downloads:stop', Downloads.stop.bind(Downloads));
 
-        socket.on('close', function() {
-            delete this.sessions[socket.id];
-        });
+        socket.on('disconnect', function() {
+            delete this.sessions[socketId];
+        }.bind(this));
     }
 };
 

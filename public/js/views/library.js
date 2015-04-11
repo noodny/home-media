@@ -1,7 +1,16 @@
 define([
-], function() {
-    var ErrorView = Backbone.View.extend({
+    'text!templates/library.html'
+], function(viewTemplate) {
+    var LibraryView = Backbone.View.extend({
+        initialize: function() {
 
+        },
+        render: function() {
+            this.$el.html(_.template(viewTemplate));
+        },
+        renderElements: function() {
+
+        }
     });
-    return ErrorView;
+    return LibraryView;
 });

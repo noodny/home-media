@@ -3,13 +3,14 @@ define([
     'views/downloads',
     'views/error'
 ], function(LibraryView, DownloadsView, ErrorView) {
-    var Router = Backbone.Router.extend({
+    var instance,
+        Router = Backbone.Router.extend({
         routes: {
             "": "home",
             "!": "home",
             "!/": "home",
             "!/library": "library",
-            "!/downloads": "downloads",
+            "!/downloads(/search)(/:query)": "downloads",
             "*error": "error"
         },
 
@@ -18,7 +19,7 @@ define([
         },
 
         home: function() {
-            this.navigate.bind(this, '!/library', {
+            this.navigate('!/downloads', {
                 replace: true,
                 trigger: true
             });
@@ -28,8 +29,10 @@ define([
             this.trigger('viewChange', LibraryView);
         },
 
-        downloads: function() {
-            this.trigger('viewChange', DownloadsView);
+        downloads: function(query) {
+            this.trigger('viewChange', DownloadsView, {
+                query: query
+            });
         },
 
         error: function() {

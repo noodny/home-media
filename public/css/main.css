@@ -8901,3 +8901,173 @@ body {
   margin-bottom: 30px;
   text-align: center;
 }
+
+/* line 22, scss/_base-styles.scss */
+.glyphicon-rotate {
+  -webkit-animation: rotate 2s infinite linear;
+  -o-animation: rotate 2s infinite linear;
+  animation: rotate 2s infinite linear;
+}
+
+/* line 28, scss/_base-styles.scss */
+.item-toggle .glyphicon-rotate,
+.item-remove .glyphicon-rotate {
+  display: none;
+}
+/* line 32, scss/_base-styles.scss */
+.item-toggle.loading .glyphicon,
+.item-remove.loading .glyphicon {
+  display: none;
+}
+/* line 35, scss/_base-styles.scss */
+.item-toggle.loading .glyphicon.glyphicon-rotate,
+.item-remove.loading .glyphicon.glyphicon-rotate {
+  display: inline-block;
+}
+
+/* line 41, scss/_base-styles.scss */
+.list-group-item {
+  overflow: hidden;
+  position: relative;
+}
+/* line 45, scss/_base-styles.scss */
+.list-group-item .item-remove {
+  position: absolute;
+  top: -10px;
+  right: 0px;
+}
+/* line 51, scss/_base-styles.scss */
+.list-group-item .progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.1;
+  background: transparent;
+  border-radius: 0;
+}
+/* line 63, scss/_base-styles.scss */
+.list-group-item .progress .progress-bar:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+/* line 70, scss/_base-styles.scss */
+.list-group-item .progress .progress-bar span {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 20px;
+}
+/* line 77, scss/_base-styles.scss */
+.list-group-item .item-details {
+  position: relative;
+  z-index: 2;
+}
+/* line 81, scss/_base-styles.scss */
+.list-group-item .item-details h4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 50px;
+}
+/* line 88, scss/_base-styles.scss */
+.list-group-item .item-details .controls {
+  display: inline-block;
+  vertical-align: middle;
+}
+/* line 93, scss/_base-styles.scss */
+.list-group-item .item-details .status {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+/* line 98, scss/_base-styles.scss */
+.list-group-item .item-details .status span {
+  margin-left: 10px;
+}
+
+@-webkit-keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* line 115, scss/_base-styles.scss */
+#search-form {
+  position: relative;
+  padding-right: 50px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+/* line 121, scss/_base-styles.scss */
+#search-form .form-group {
+  display: block;
+}
+/* line 124, scss/_base-styles.scss */
+#search-form input {
+  width: 100%;
+}
+/* line 128, scss/_base-styles.scss */
+#search-form .reset-form {
+  position: absolute;
+  top: 0px;
+  right: 50px;
+  padding: 13px;
+}
+/* line 135, scss/_base-styles.scss */
+#search-form .btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* line 142, scss/_base-styles.scss */
+#downloads-list {
+  margin-top: 20px;
+}
+
+/* line 146, scss/_base-styles.scss */
+#search-results {
+  max-width: 600px;
+  margin: 5px auto 0;
+}
+
+/* line 151, scss/_base-styles.scss */
+#search-results .list-group {
+  overflow: auto;
+  max-height: 160px;
+  text-align: left;
+}
+/* line 156, scss/_base-styles.scss */
+#search-results .list-group .list-group-item {
+  padding-right: 65px;
+  position: relative;
+}
+/* line 160, scss/_base-styles.scss */
+#search-results .list-group .list-group-item .btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -21.5px;
+}
+/* line 167, scss/_base-styles.scss */
+#search-results .list-group .list-group-item h5 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-top: 0;
+}

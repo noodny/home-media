@@ -18,3 +18,157 @@ body {
     margin-bottom: 3*$padding-base-vertical;
     text-align: center;
 }
+
+.glyphicon-rotate {
+    @include animation(rotate 2s infinite linear);
+}
+
+.item-toggle,
+.item-remove {
+    .glyphicon-rotate {
+        display: none;
+    }
+
+    &.loading .glyphicon {
+        display: none;
+
+        &.glyphicon-rotate {
+            display: inline-block;
+        }
+    }
+}
+
+.list-group-item {
+    overflow: hidden;
+    position: relative;
+
+    .item-remove {
+        position: absolute;
+        top: -10px;
+        right: 0px;
+    }
+
+    .progress {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        z-index: 0;
+        opacity: 0.1;
+        background: transparent;
+        border-radius: 0;
+
+        .progress-bar:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+
+        .progress-bar span {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 20px;
+        }
+    }
+
+    .item-details {
+        position: relative;
+        z-index: 2;
+
+        h4 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: 50px;
+        }
+
+        .controls {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .status {
+            display: inline-block;
+            text-align: left;
+            vertical-align: middle;
+
+            span {
+                margin-left: 10px;
+            }
+        }
+    }
+}
+
+@-webkit-keyframes rotate {
+    from  { transform: rotate(0deg); }
+    to    { transform: rotate(360deg); }
+}
+
+@keyframes rotate {
+    from  { transform: rotate(0deg); }
+    to    { transform: rotate(360deg); }
+}
+
+#search-form {
+    position: relative;
+    padding-right: 50px;
+    max-width: 600px;
+    margin: 0 auto;
+
+    .form-group {
+        display: block;
+    }
+    input {
+        width: 100%;
+    }
+
+    .reset-form {
+        position: absolute;
+        top: 0px;
+        right: 50px;
+        padding: 13px;
+    }
+
+    .btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+
+#downloads-list {
+    margin-top: 20px;
+}
+
+#search-results {
+    max-width: 600px;
+    margin: 5px auto 0;
+}
+
+#search-results .list-group {
+    overflow: auto;
+    max-height: 160px;
+    text-align: left;
+
+    .list-group-item {
+        padding-right: 65px;
+        position: relative;
+
+        .btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            margin-top: -21.5px;
+        }
+
+        h5 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 0;
+        }
+    }
+}
