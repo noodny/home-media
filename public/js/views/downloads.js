@@ -1,13 +1,15 @@
 define([
     'socket',
+    'message',
     'collections/downloads',
     'views/downloads/search',
     'text!templates/downloads.html',
     'text!templates/downloads/list-item.html'
-], function(Socket, DownloadsCollection, SearchView, viewTemplate, itemTemplate) {
+], function(Socket, Message, DownloadsCollection, SearchView, viewTemplate, itemTemplate) {
     var DownloadsView = Backbone.View.extend({
         events: {
             'click .item-toggle': 'onItemToggleClick',
+            'click .item-cancel': 'onItemCancelClick',
             'click .item-remove': 'onItemRemoveClick'
         },
         initialize: function(settings, options) {
@@ -66,6 +68,22 @@ define([
 
             $el.addClass('loading');
             Socket.emit('downloads:' + event, id);
+        },
+        onItemCancelClick: function(event) {
+            event.preventDefault();
+
+            Message.prompt({
+                title: 'Removal confirm',
+                body: 'This will physically remove the downloaded files. Are you sure that you want to continue?'
+            }, function() {
+                var $el = $(event.currentTarget),
+                    id = $el.parents('.list-group-item').data('id');
+
+                this.collection.remove(this.collection.get(id));
+
+                $el.addClass('loading');
+                Socket.emit('downloads:remove', id);
+            }.bind(this));
         },
         onItemRemoveClick: function(event) {
             event.preventDefault();

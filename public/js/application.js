@@ -1,7 +1,8 @@
 define([
     'socket',
+    'message',
     'views/nav'
-], function (Socket, NavView) {
+], function (Socket, Message, NavView) {
     var instance,
         Application = {
             initialize: function (router) {
@@ -17,6 +18,7 @@ define([
                     this.navView.trigger('route');
                 }, this);
                 Socket.initialize();
+                Message.initialize($('#message'));
                 this.router.start();
             },
             setCurrentView: function (View, options) {
