@@ -1,3 +1,26 @@
 /.idea
 /.sass-cache
 *.DS_Store
+
+
+#npm rebuild results:
+node_modules/socket.io/node_modules/engine.io/node_modules/ws/builderror.log
+node_modules/restify/node_modules/bunyan/node_modules/dtrace-provider/build/
+node_modules/restify/node_modules/bunyan/node_modules/dtrace-provider/libusdt/libusdt.a
+node_modules/restify/node_modules/bunyan/node_modules/dtrace-provider/libusdt/usdt.o
+node_modules/restify/node_modules/bunyan/node_modules/dtrace-provider/libusdt/usdt_dof.o
+node_modules/restify/node_modules/bunyan/node_modules/dtrace-provider/libusdt/usdt_dof_file.o
+node_modules/restify/node_modules/bunyan/node_modules/dtrace-provider/libusdt/usdt_dof_sections.o
+node_modules/restify/node_modules/bunyan/node_modules/dtrace-provider/libusdt/usdt_probe.o
+node_modules/restify/node_modules/bunyan/node_modules/dtrace-provider/libusdt/usdt_tracepoints.o
+node_modules/restify/node_modules/dtrace-provider/build/
+node_modules/restify/node_modules/dtrace-provider/libusdt/libusdt.a
+node_modules/restify/node_modules/dtrace-provider/libusdt/usdt.o
+node_modules/restify/node_modules/dtrace-provider/libusdt/usdt_dof.o
+node_modules/restify/node_modules/dtrace-provider/libusdt/usdt_dof_file.o
+node_modules/restify/node_modules/dtrace-provider/libusdt/usdt_dof_sections.o
+node_modules/restify/node_modules/dtrace-provider/libusdt/usdt_probe.o
+node_modules/restify/node_modules/dtrace-provider/libusdt/usdt_tracepoints.o
+node_modules/socket.io/node_modules/engine.io/node_modules/ws/build/
+node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/build/
+node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/builderror.log
