@@ -1,7 +1,8 @@
 var EventEmitter = require('events').EventEmitter,
     Transmission = require('transmission'),
     _ = require('lodash'),
-    kickass = require('kickass-torrent');
+    kickass = require('kickass-torrent'),
+    config = require('../config.json');
 
 var Downloads = function() {
     this.client = new Transmission({
@@ -18,10 +19,9 @@ var Downloads = function() {
 Downloads.prototype = Object.create(EventEmitter.prototype);
 
 Downloads.prototype.checkFinished = function(torrents) {
-    var now = Math.round(new Date().getTime()/1000),
-        serverTimeDiff = 3685;
+    var now = Math.round(new Date().getTime()/1000);
     torrents.forEach(function(torrent) {
-        if(torrent.percentDone === 1 && torrent.doneDate !== 0 && torrent.doneDate > now - serverTimeDiff) {
+        if(torrent.percentDone === 1 && torrent.doneDate !== 0 && torrent.doneDate > now - config.serverTimeDiff || 0) {
             this.emit('finished', torrent);
             this.stop(torrent.id);
         }

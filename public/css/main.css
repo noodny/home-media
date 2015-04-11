@@ -8889,58 +8889,59 @@ html, body, #content {
 /* line 10, scss/_base-styles.scss */
 body {
   min-width: 320px;
+  padding-top: 81px;
 }
 
-/* line 13, scss/_base-styles.scss */
+/* line 14, scss/_base-styles.scss */
 .view {
   text-align: left;
 }
 
-/* line 17, scss/_base-styles.scss */
+/* line 18, scss/_base-styles.scss */
 .view-header {
   margin-bottom: 30px;
   text-align: center;
 }
 
-/* line 22, scss/_base-styles.scss */
+/* line 23, scss/_base-styles.scss */
 .glyphicon-rotate {
   -webkit-animation: rotate 2s infinite linear;
   -o-animation: rotate 2s infinite linear;
   animation: rotate 2s infinite linear;
 }
 
-/* line 29, scss/_base-styles.scss */
+/* line 30, scss/_base-styles.scss */
 .item-toggle .glyphicon-rotate,
 .item-remove .glyphicon-rotate,
 .item-cancel .glyphicon-rotate {
   display: none;
 }
-/* line 33, scss/_base-styles.scss */
+/* line 34, scss/_base-styles.scss */
 .item-toggle.loading .glyphicon,
 .item-remove.loading .glyphicon,
 .item-cancel.loading .glyphicon {
   display: none;
 }
-/* line 36, scss/_base-styles.scss */
+/* line 37, scss/_base-styles.scss */
 .item-toggle.loading .glyphicon.glyphicon-rotate,
 .item-remove.loading .glyphicon.glyphicon-rotate,
 .item-cancel.loading .glyphicon.glyphicon-rotate {
   display: inline-block;
 }
 
-/* line 42, scss/_base-styles.scss */
+/* line 43, scss/_base-styles.scss */
 .list-group-item {
   overflow: hidden;
   position: relative;
 }
-/* line 46, scss/_base-styles.scss */
+/* line 47, scss/_base-styles.scss */
 .list-group-item .item-remove,
 .list-group-item .item-cancel {
   position: absolute;
   top: -10px;
   right: 0px;
 }
-/* line 53, scss/_base-styles.scss */
+/* line 54, scss/_base-styles.scss */
 .list-group-item .progress {
   position: absolute;
   top: 0;
@@ -8953,43 +8954,43 @@ body {
   background: transparent;
   border-radius: 0;
 }
-/* line 65, scss/_base-styles.scss */
+/* line 66, scss/_base-styles.scss */
 .list-group-item .progress .progress-bar:before {
   content: '';
   display: inline-block;
   height: 100%;
   vertical-align: middle;
 }
-/* line 72, scss/_base-styles.scss */
+/* line 73, scss/_base-styles.scss */
 .list-group-item .progress .progress-bar span {
   display: inline-block;
   vertical-align: middle;
   font-size: 20px;
 }
-/* line 79, scss/_base-styles.scss */
+/* line 80, scss/_base-styles.scss */
 .list-group-item .item-details {
   position: relative;
   z-index: 2;
 }
-/* line 83, scss/_base-styles.scss */
+/* line 84, scss/_base-styles.scss */
 .list-group-item .item-details h4 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-right: 50px;
 }
-/* line 90, scss/_base-styles.scss */
+/* line 91, scss/_base-styles.scss */
 .list-group-item .item-details .controls {
   display: inline-block;
   vertical-align: middle;
 }
-/* line 95, scss/_base-styles.scss */
+/* line 96, scss/_base-styles.scss */
 .list-group-item .item-details .status {
   display: inline-block;
   text-align: left;
   vertical-align: middle;
 }
-/* line 100, scss/_base-styles.scss */
+/* line 101, scss/_base-styles.scss */
 .list-group-item .item-details .status span {
   margin-left: 10px;
 }
@@ -9010,65 +9011,65 @@ body {
     transform: rotate(360deg);
   }
 }
-/* line 117, scss/_base-styles.scss */
+/* line 118, scss/_base-styles.scss */
 #search-form {
   position: relative;
   padding-right: 50px;
   max-width: 600px;
   margin: 0 auto;
 }
-/* line 123, scss/_base-styles.scss */
+/* line 124, scss/_base-styles.scss */
 #search-form .form-group {
   display: block;
 }
-/* line 126, scss/_base-styles.scss */
+/* line 127, scss/_base-styles.scss */
 #search-form input {
   width: 100%;
 }
-/* line 130, scss/_base-styles.scss */
+/* line 131, scss/_base-styles.scss */
 #search-form .reset-form {
   position: absolute;
   top: 0px;
   right: 50px;
   padding: 13px;
 }
-/* line 137, scss/_base-styles.scss */
+/* line 138, scss/_base-styles.scss */
 #search-form .btn {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-/* line 144, scss/_base-styles.scss */
+/* line 145, scss/_base-styles.scss */
 #downloads-list {
   margin-top: 20px;
 }
 
-/* line 148, scss/_base-styles.scss */
+/* line 149, scss/_base-styles.scss */
 #search-results {
   max-width: 600px;
   margin: 5px auto 0;
 }
 
-/* line 153, scss/_base-styles.scss */
+/* line 154, scss/_base-styles.scss */
 #search-results .list-group {
   overflow: auto;
   max-height: 160px;
   text-align: left;
 }
-/* line 158, scss/_base-styles.scss */
+/* line 159, scss/_base-styles.scss */
 #search-results .list-group .list-group-item {
   padding-right: 65px;
   position: relative;
 }
-/* line 162, scss/_base-styles.scss */
+/* line 163, scss/_base-styles.scss */
 #search-results .list-group .list-group-item .btn {
   position: absolute;
   right: 10px;
   top: 50%;
   margin-top: -21.5px;
 }
-/* line 169, scss/_base-styles.scss */
+/* line 170, scss/_base-styles.scss */
 #search-results .list-group .list-group-item h5 {
   overflow: hidden;
   white-space: nowrap;
