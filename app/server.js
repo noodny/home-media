@@ -60,6 +60,7 @@ Server.prototype = {
         Downloads.on('finished', function(torrent) {
             this.io.sockets.emit('message', 'Torrent ' + torrent.name + ' finished downloading.')
             console.log(torrent);
+            Subtitles.download(torrent);
         }.bind(this));
 
         this.restify.listen(this.config.server.port);

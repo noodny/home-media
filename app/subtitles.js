@@ -2,7 +2,14 @@ var opensubtitles = require('opensubtitles-client'),
     videoExtensions = ['avi', 'mov', 'mkv', 'mp4'];
 
 module.exports = {
-    download: function(path, filename) {
+    download: function(torrent) {
+        var dir = torrent.downloadDir,
+            filename;
+
+        torrent.files.forEach(function(){
+
+        });
+
         opensubtitles.api.login().then(function(token) {
             console.log(token);
 
