@@ -76,9 +76,9 @@ Server.prototype = {
             this.io.sockets.emit('player:status', data)
         }.bind(this));
 
-        this.restify.listen(this.config.server.port);
+        this.restify.listen(this.config.port);
 
-        console.log('Server listening on port ' + this.config.server.port);
+        console.log('Server listening on port ' + this.config.port);
     },
 
     onSocketConnection: function(socket) {

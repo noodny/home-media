@@ -6,8 +6,8 @@ var EventEmitter = require('events').EventEmitter,
 
 var Downloads = function() {
     this.client = new Transmission({
-        host: '192.168.0.104',
-        port: 9091
+        host: config.host,
+        port: config.transmissionPort
     });
 
     this.on('status', this.checkFinished);

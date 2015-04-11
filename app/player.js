@@ -1,10 +1,11 @@
 var EventEmitter = require('events').EventEmitter,
     kodi_rpc = require('node-kodi'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    config = require('../config.json');
 
 var Player = function() {
     this.client = new kodi_rpc({
-        url: '192.168.0.104:8080'
+        url: config.host + ':' + config.kodiPort
     });
 
     setInterval(this.status.bind(this), 1000);

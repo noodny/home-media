@@ -2,7 +2,7 @@ define(['config'], function (config) {
     var instance,
         Socket = {
             initialize: function () {
-                this.socket = new io(config.socketsUrl);
+                this.socket = new io(config.apiHost + ':' + config.apiPort);
                 this.socket.on('message', this.trigger.bind(this, 'message'));
                 /*this.socket.on('downloads:status', function(){
                     console.log('test')
