@@ -3,7 +3,7 @@
 *.DS_Store
 /config.json
 /public/js/config.js
-/db.json
+/data
 
 
 #npm rebuild results:

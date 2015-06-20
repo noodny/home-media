@@ -4,6 +4,7 @@
     "kodiPort": 8080,
     "transmissionPort": 9091,
     "serverTimeDiff": 3685,
+    "videoExtensions": ["avi", "mov", "mkv", "mp4"],
     "directories": [
         "/Users/krzysztofjakubik/Movies",
         "^/Users/krzysztofjakubik/Movies/GoPro"

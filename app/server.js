@@ -1,11 +1,10 @@
 var restify = require('restify'),
     _ = require('lodash'),
     socketio = require('socket.io'),
-    Terminal = require('./terminal.js'),
     Subtitles = require('./subtitles.js'),
     Downloads = new (require('./downloads.js'))(),
     Movies = new (require('./movies.js'))(),
-    Player = new (require('./player.js'))();
+    Player = new (require('mplayer'))();
 
 
 var Server = function(config) {
@@ -28,10 +27,8 @@ Server.prototype = {
         });
 
         this.restify.get('/movies/', function(req, res, next) {
-            Movies.get(function(movies) {
-                res.send(200, movies).end();
-                next();
-            });
+            res.send(200, Movies.get()).end();
+            next();
         });
 
         this.restify.post('/downloads/add', function(req, res, next) {
@@ -72,20 +69,22 @@ Server.prototype = {
             Subtitles.download(torrent);
         }.bind(this));
 
-        Player.on('status', function(data) {
-            this.io.sockets.emit('player:status', data)
+        /*
+         Player.on('status', function(data) {
+         this.io.sockets.emit('player:status', data)
+         }.bind(this));
+         */
+        Movies.update(function() {
+            this.restify.listen(this.config.port);
+
+            console.log('Server listening on port ' + this.config.port);
         }.bind(this));
-
-        this.restify.listen(this.config.port);
-
-        console.log('Server listening on port ' + this.config.port);
     },
 
     onSocketConnection: function(socket) {
         var socketId = parseInt(socket.id);
         if(typeof this.sessions[socketId] === 'undefined') {
             this.sessions[socketId] = {
-                terminal: new Terminal(),
                 busy: false
             }
         }
@@ -97,7 +96,11 @@ Server.prototype = {
         //socket.on('player:stop');
         //socket.on('player:forward');
         //socket.on('player:backward');
-        socket.on('player:open', Player.open.bind(Player));
+        socket.on('player:open', function(id) {
+            var movie = Movies.getById(id);
+            console.log(movie);
+            Player.open("'" + movie._src.location + movie._src.filename + "'");
+        });
 
         socket.on('downloads:remove', Downloads.remove.bind(Downloads));
         socket.on('downloads:start', Downloads.start.bind(Downloads));

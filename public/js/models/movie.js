@@ -3,17 +3,11 @@ define(['utils'], function(utils) {
         defaults: {},
         parse: function(data) {
             return {
-                title: data.label,
-                id: data.movieid,
-                rating: Math.round(data.rating * 100)/100,
-                thumbnail: this.parseImageUrl(data.thumbnail),
-                imdb: data.imdbnumber
+                title: data.title,
+                id: data.id,
+                rating: Math.round(data.vote_average * 100)/100,
+                thumbnail: data.poster_path
             }
-        },
-        parseImageUrl: function(url) {
-            url = url.replace('image://', 'http://192.168.0.104:8080/image/');
-            url = url.substr(0, url.length - 1);
-            return url;
         }
     });
     return Download;
