@@ -3,7 +3,7 @@ var restify = require('restify'),
     socketio = require('socket.io'),
     Subtitles = require('./subtitles.js'),
     Downloads = new (require('./downloads.js'))(),
-    Movies = new (require('./movies.js'))(),
+    Library = new (require('./library.js'))(),
     Player = new (require('mplayer'))();
 
 
@@ -26,8 +26,8 @@ Server.prototype = {
             next();
         });
 
-        this.restify.get('/movies/', function(req, res, next) {
-            res.send(200, Movies.get()).end();
+        this.restify.get('/Library/', function(req, res, next) {
+            res.send(200, Library.get()).end();
             next();
         });
 
@@ -74,7 +74,7 @@ Server.prototype = {
          this.io.sockets.emit('player:status', data)
          }.bind(this));
          */
-        Movies.update(function() {
+        Library.update(function() {
             this.restify.listen(this.config.port);
 
             console.log('Server listening on port ' + this.config.port);
@@ -97,7 +97,7 @@ Server.prototype = {
         //socket.on('player:forward');
         //socket.on('player:backward');
         socket.on('player:open', function(id) {
-            var movie = Movies.getById(id);
+            var movie = Library.getById(id);
             console.log(movie);
             Player.open("'" + movie._src.location + movie._src.filename + "'");
         });

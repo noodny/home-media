@@ -106,12 +106,10 @@ var apiRequest = function(type, params, callback) {
         });
     };
 
-// TODO: requests error handling
-
-var Movies = function() {
+var Library = function() {
 };
 
-Movies.prototype = _.extend({
+Library.prototype = _.extend({
     update: function(done) {
         this.emit('update:start');
         Db.set('lastScan', Date.now());
@@ -224,6 +222,4 @@ Movies.prototype = _.extend({
     }
 }, EventEmitter);
 
-new Movies().forceUpdate();
-
-module.exports = Movies;
+module.exports = Library;
