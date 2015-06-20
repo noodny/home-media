@@ -26,8 +26,25 @@ Server.prototype = {
             next();
         });
 
-        this.restify.get('/Library/', function(req, res, next) {
-            res.send(200, Library.get()).end();
+        this.restify.get('/library/updatef', function(req, res, next) {
+            Library.forceUpdate(function() {
+                res.send(200).end();
+                next();
+            });
+        });
+
+        this.restify.get('/library/movies', function(req, res, next) {
+            res.send(200, Library.get('movies')).end();
+            next();
+        });
+
+        this.restify.get('/library/series', function(req, res, next) {
+            res.send(200, Library.get('series')).end();
+            next();
+        });
+
+        this.restify.get('/library/series/:id/episodes', function(req, res, next) {
+            res.send(200, Library.getEpisodes(req.params.id)).end();
             next();
         });
 

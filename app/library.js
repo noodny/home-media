@@ -64,7 +64,7 @@ var apiRequest = function(type, params, callback) {
 
             if(res) {
                 var episode = res;
-                episode.seriesId = series.id;
+                episode.seriesId = series.get('id');
                 episode._src = media.toJSON();
 
                 episode = new Episode(episode, {parse: true});
@@ -219,6 +219,9 @@ Library.prototype = _.extend({
     },
     getById: function(collection, id) {
         return Db.find(collection, {id: id});
+    },
+    getEpisodes: function(id) {
+        return Db.find('episodes', {seriesId: parseInt(id)});
     }
 }, EventEmitter);
 
