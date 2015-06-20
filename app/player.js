@@ -14,7 +14,6 @@ var Player = function() {
 Player.prototype = Object.create(EventEmitter.prototype);
 
 Player.prototype.open = function(id) {
-    console.log('player play', arguments)
     this.client.player.open({item: {movieid: id}}).then(function(data) {
         console.log(arguments)
     });

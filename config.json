@@ -1,7 +1,12 @@
 {
     "port": 8888,
-    "host": "192.168.0.104",
+    "host": "127.0.0.1",
     "kodiPort": 8080,
     "transmissionPort": 9091,
-    "serverTimeDiff": 3685
+    "serverTimeDiff": 3685,
+    "directories": [
+        "/Users/krzysztofjakubik/Movies",
+        "^/Users/krzysztofjakubik/Movies/GoPro"
+    ],
+    "tmdbApiKey": "8765e9c6e992b0f24ca4327aef03e8b8"
 }

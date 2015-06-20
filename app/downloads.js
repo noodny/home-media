@@ -30,6 +30,10 @@ Downloads.prototype.checkFinished = function(torrents) {
 
 Downloads.prototype.refresh = function() {
     this.client.get(function(err, arg) {
+        if(err) {
+            console.error(err);
+            throw new Error(err);
+        }
         this.torrents = arg.torrents;
         this.emit('status', arg.torrents);
     }.bind(this));
@@ -82,6 +86,10 @@ Downloads.prototype.search = function(query, callback) {
         order: 'desc',
         page: 1
     }, function(err, response) {
+        if(err) {
+            console.error(err);
+            throw new Error(err);
+        }
         if(response.list) {
             callback(response.list);
         } else {
