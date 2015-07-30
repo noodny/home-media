@@ -11,7 +11,7 @@
     "kickass-torrent": "0.0.1",
     "load-json": "0.0.1",
     "lodash": "~2.4.1",
-    "mplayer": "0.0.1",
+    "mplayer": "*",
     "node-kodi": "0.0.1-alpha",
     "opensubtitles-client": "^2.2.0",
     "restify": "~2.8.5",

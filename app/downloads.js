@@ -21,9 +21,10 @@ Downloads.prototype = Object.create(EventEmitter.prototype);
 Downloads.prototype.checkFinished = function(torrents) {
     var now = Math.round(new Date().getTime()/1000);
     torrents.forEach(function(torrent) {
-        if(torrent.percentDone === 1 && torrent.doneDate !== 0 && torrent.doneDate > now - config.serverTimeDiff || 0) {
+        if(torrent.percentDone === 1 && torrent.doneDate !== 0 && torrent.doneDate < now || 0) {
             this.emit('finished', torrent);
             this.stop(torrent.id);
+            this.remove(torrent.id, false);
         }
     }.bind(this));
 };
