@@ -31,11 +31,12 @@ Downloads.prototype.checkFinished = function(torrents) {
 Downloads.prototype.refresh = function() {
     this.client.get(function(err, arg) {
         if(err) {
-            console.error(err);
-            throw new Error(err);
+            console.error('Could not connect to the transmission daemon. Exiting...');
+            process.exit(0);
+        } else {
+            this.torrents = arg.torrents;
+            this.emit('status', arg.torrents);
         }
-        this.torrents = arg.torrents;
-        this.emit('status', arg.torrents);
     }.bind(this));
 };
 

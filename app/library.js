@@ -79,6 +79,7 @@ var apiRequest = function(type, params, callback) {
         });
     },
     fetchMovie = function(media, callback) {
+        console.log('fetch movie ' + media.get('title'))
         apiRequest('search', {
             type: 'movie',
             query: {
@@ -89,6 +90,8 @@ var apiRequest = function(type, params, callback) {
             if(err) {
                 console.error('Movie fetching error: ' + err);
             }
+
+            media.markAsScanned();
 
             if(res && res.results && res.results.length) {
                 var movie = res.results[0];
@@ -101,7 +104,7 @@ var apiRequest = function(type, params, callback) {
             } else {
                 err = 'Movie fetching error: ' + 'Movie not found - ' + media.get('title');
                 console.error(err);
-                callback(err, null);
+                callback(null, null);
             }
         });
     };
@@ -115,6 +118,7 @@ Library.prototype = _.extend({
         Db.set('lastScan', Date.now());
 
         this.listVideoFiles(function(files) {
+            console.log(files)
             var parsed = _.map(files, function(filename) {
                 return new Media({
                     filename: filename
@@ -124,56 +128,80 @@ Library.prototype = _.extend({
             });
 
             var counter = parsed.length;
-
             async.eachLimit(parsed, 1, function(media, callback) {
+                console.log(media.get('title'))
+                if(media.get('title') === null) {
+                    return callback();
+                }
                 // check if this file has been scanned before
                 if(!media.wasScanned()) {
-                    // if this is a tv show look up the whole series, then the episode
-                    if(media.isSeries()) {
-                        var series = Db.find('series', {searchKey: media.getSearchKey()});
+                    this.getFileInfo(media.getPath(), function(data) {
+                        media.set(data);
 
-                        // check if the series is already cached
-                        if(!series) {
-                            fetchSeries(media, function(err, series) {
-                                if(series) {
-                                    fetchEpisode(media, series, function(err, res) {
-                                        this.emit('update:progress', --counter / parsed.length);
+                        // if this is a tv show look up the whole series, then the episode
+                        if(media.isSeries()) {
+                            var series = Db.find('series', {searchKey: media.getSearchKey()});
+                            // check if the series is already cached
+                            if(!series.length) {
+                                fetchSeries(media, function(err, series) {
+                                    if(series) {
+                                        fetchEpisode(media, series, function(err, res) {
+                                            this.emit('update:progress', 1 - (--counter / parsed.length));
+                                            callback(err || null);
+                                        }.bind(this));
+                                    } else {
+                                        media.markAsScanned();
+                                        this.emit('update:progress', 1 - (--counter / parsed.length));
                                         callback(err || null);
-                                    }.bind(this));
-                                } else {
-                                    media.markAsScanned();
-                                    this.emit('update:progress', --counter / parsed.length);
+                                    }
+                                }.bind(this));
+                            } else {
+                                series = new Series(series[0], {parse: true});
+                                fetchEpisode(media, series, function(err, res) {
+                                    this.emit('update:progress', 1 - (--counter / parsed.length));
                                     callback(err || null);
-                                }
-                            }.bind(this));
+                                }.bind(this));
+                            }
                         } else {
-                            series = new Series(series, {parse: true});
-                            fetchEpisode(media, series, function(err, res) {
-                                this.emit('update:progress', --counter / parsed.length);
+                            fetchMovie(media, function(err, res) {
+                                this.emit('update:progress', 1 - (--counter / parsed.length));
                                 callback(err || null);
                             }.bind(this));
                         }
-                    } else {
-                        fetchMovie(media, function(err, res) {
-                            this.emit('update:progress', --counter / parsed.length);
-                            callback(err || null);
-                        }.bind(this));
-                    }
+                    }.bind(this));
                 } else {
-                    this.emit('update:progress', --counter / parsed.length);
+                    this.emit('update:progress', 1 - (--counter / parsed.length));
                     callback();
                 }
             }.bind(this), function(err, res) {
                 Db.save();
-                if(_.isFunction(done)) {
+                this.emit('update:finish');
+                if(done && _.isFunction(done)) {
                     done();
                 }
-            });
+            }.bind(this));
         }.bind(this));
     },
     forceUpdate: function(done) {
         Db.empty();
         this.update(done);
+    },
+    getFileInfo: function(file, callback) {
+        execFile('ffprobe', [file], function(err, stdout, stderr) {
+            if(err) {
+                throw new Error(err);
+            }
+
+            if(stdout) {
+                var duration = stdout.match(/Duration: ([0-9:]*)/);
+            } else {
+                var duration = stderr.match(/Duration: ([0-9:]*)/);
+            }
+
+            callback({
+                duration: (_.isArray(duration) && duration.length ? duration[1] : 0)
+            });
+        }.bind(this));
     },
     listVideoFiles: function(callback) {
         var getFindArgs = function() {

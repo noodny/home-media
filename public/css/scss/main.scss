@@ -1,4 +1,8 @@
 @import 'bootstrap-compass';
 @import 'bootstrap';
 
+@import 'helpers';
 @import 'base-styles';
+
+@import 'views/update';
+@import 'views/movies';

@@ -1,11 +1,11 @@
 define([
     'config',
     'socket',
-    'models/movie'
-], function(config, Socket, Movie) {
+    'models/series'
+], function(config, Socket, Series) {
     var MoviesCollection = Backbone.Collection.extend({
-        model: Movie,
-        url: config.apiUrl + 'library/movies'
+        model: Series,
+        url: config.apiUrl + 'library/series'
     });
     return MoviesCollection;
 });

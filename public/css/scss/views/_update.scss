@@ -1,0 +1,31 @@
+#update {
+    background: rgba(black, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1031;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+    .center-block {
+        display: inline-block;
+        width: 50%;
+        margin: 0 auto;
+        vertical-align: middle;
+    }
+
+    .progress {
+        margin: 15px 0;
+    }
+}
+
+#player {
+    z-index: 1032;
+}

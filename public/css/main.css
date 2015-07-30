@@ -9016,68 +9016,172 @@ body {
     transform: rotate(360deg);
   }
 }
-/* line 123, scss/_base-styles.scss */
+/* line 131, scss/_base-styles.scss */
 #search-form {
   position: relative;
   padding-right: 50px;
   max-width: 600px;
   margin: 0 auto;
 }
-/* line 129, scss/_base-styles.scss */
+/* line 137, scss/_base-styles.scss */
 #search-form .form-group {
   display: block;
 }
-/* line 132, scss/_base-styles.scss */
+/* line 140, scss/_base-styles.scss */
 #search-form input {
   width: 100%;
 }
-/* line 136, scss/_base-styles.scss */
+/* line 144, scss/_base-styles.scss */
 #search-form .reset-form {
   position: absolute;
   top: 0px;
   right: 50px;
   padding: 13px;
 }
-/* line 143, scss/_base-styles.scss */
+/* line 151, scss/_base-styles.scss */
 #search-form .btn {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-/* line 150, scss/_base-styles.scss */
+/* line 158, scss/_base-styles.scss */
 #downloads-list {
   margin-top: 20px;
 }
 
-/* line 154, scss/_base-styles.scss */
+/* line 162, scss/_base-styles.scss */
 #search-results {
   max-width: 600px;
   margin: 5px auto 0;
 }
 
-/* line 159, scss/_base-styles.scss */
+/* line 167, scss/_base-styles.scss */
 #search-results .list-group {
   overflow: auto;
   max-height: 160px;
   text-align: left;
 }
-/* line 164, scss/_base-styles.scss */
+/* line 172, scss/_base-styles.scss */
 #search-results .list-group .list-group-item {
   padding-right: 65px;
   position: relative;
 }
-/* line 168, scss/_base-styles.scss */
+/* line 176, scss/_base-styles.scss */
 #search-results .list-group .list-group-item .btn {
   position: absolute;
   right: 10px;
   top: 50%;
   margin-top: -21.5px;
 }
-/* line 175, scss/_base-styles.scss */
+/* line 183, scss/_base-styles.scss */
 #search-results .list-group .list-group-item h5 {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   margin-top: 0;
+}
+
+/* line 192, scss/_base-styles.scss */
+.navbar .navbar-right {
+  line-height: 60px;
+}
+/* line 195, scss/_base-styles.scss */
+.navbar .navbar-right .btn {
+  vertical-align: baseline;
+}
+
+/* line 1, scss/views/_update.scss */
+#update {
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1031;
+}
+/* line 10, scss/views/_update.scss */
+#update:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+/* line 17, scss/views/_update.scss */
+#update .center-block {
+  display: inline-block;
+  width: 50%;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+/* line 24, scss/views/_update.scss */
+#update .progress {
+  margin: 15px 0;
+}
+
+/* line 29, scss/views/_update.scss */
+#player {
+  z-index: 1032;
+}
+
+/* line 2, scss/views/_movies.scss */
+.movies-list .media {
+  background: #222222;
+  position: relative;
+  width: 100%;
+  display: block;
+  margin-bottom: 20px;
+  color: #fff;
+}
+/* line 10, scss/views/_movies.scss */
+.movies-list .media .media-image {
+  width: 100%;
+  padding-bottom: 150%;
+  position: relative;
+  overflow: hidden;
+}
+/* line 17, scss/views/_movies.scss */
+.movies-list .media .media-object {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+/* line 24, scss/views/_movies.scss */
+.movies-list .media .media-body {
+  padding: 20px;
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* line 38, scss/views/_movies.scss */
+.movies-list-horizontal .media {
+  overflow: visible;
+  padding-bottom: 40px;
+}
+@media (min-width: 992px) {
+  /* line 38, scss/views/_movies.scss */
+  .movies-list-horizontal .media {
+    padding-bottom: 0;
+  }
+}
+/* line 46, scss/views/_movies.scss */
+.movies-list-horizontal .media .media-image {
+  padding-bottom: 56.25%;
+}
+@media (min-width: 992px) {
+  /* line 51, scss/views/_movies.scss */
+  .movies-list-horizontal .media .media-body {
+    bottom: 0;
+    left: 50%;
+    right: 0;
+    width: 50%;
+    top: 0;
+  }
 }

@@ -14,9 +14,10 @@ var Movie = Model.extend({
     parse: function(data) {
         return {
             id: data.id,
-            title: data.name,
+            title: data.title,
             file: data._src.location + data._src.filename,
             overview: data.overview,
+            duration: data._src.duration,
             rating: data.vote_average/10,
             released: data.release_date,
             images: {

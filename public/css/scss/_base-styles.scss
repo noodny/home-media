@@ -111,13 +111,21 @@ body {
 }
 
 @-webkit-keyframes rotate {
-    from  { transform: rotate(0deg); }
-    to    { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes rotate {
-    from  { transform: rotate(0deg); }
-    to    { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 #search-form {
@@ -178,5 +186,13 @@ body {
             text-overflow: ellipsis;
             margin-top: 0;
         }
+    }
+}
+
+.navbar .navbar-right {
+    line-height: 60px;
+
+    .btn {
+        vertical-align: baseline;
     }
 }

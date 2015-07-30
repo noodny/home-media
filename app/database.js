@@ -41,7 +41,7 @@ module.exports = {
         if(!db) {
             this.initialize();
         }
-        return _.find(db[collection], query);
+        return _.where(db[collection], query);
     },
     has: function(collection, value) {
         if(!db) {

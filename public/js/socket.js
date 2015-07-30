@@ -7,6 +7,11 @@ define(['config'], function (config) {
                 /*this.socket.on('downloads:status', function(){
                     console.log('test')
                 })*/
+                if(true) {
+                    this.socket.on('library:update:start', console.log.bind(console, 'library:update:start'));
+                    this.socket.on('library:update:finish', console.log.bind(console, 'library:update:finish'));
+                    this.socket.on('library:update:progress', console.log.bind(console, 'library:update:progress'));
+                }
             },
             emit: function() {
                 this.socket.emit.apply(this.socket, arguments);

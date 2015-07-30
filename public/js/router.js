@@ -1,14 +1,18 @@
 define([
     'views/movies',
+    'views/series',
+    'views/episodes',
     'views/downloads',
     'views/error'
-], function(MoviesView, DownloadsView, ErrorView) {
+], function(MoviesView, SeriesView, EpisodesView, DownloadsView, ErrorView) {
     var Router = Backbone.Router.extend({
         routes: {
             "": "home",
             "!": "home",
             "!/": "home",
             "!/movies": "movies",
+            "!/series": "series",
+            "!/series/:id/episodes": "episodes",
             "!/downloads(/search)(/:query)": "downloads",
             "*error": "error"
         },
@@ -26,6 +30,16 @@ define([
 
         movies: function() {
             this.trigger('viewChange', MoviesView);
+        },
+
+        series: function() {
+            this.trigger('viewChange', SeriesView);
+        },
+
+        episodes: function(seriesId) {
+            this.trigger('viewChange', EpisodesView, {
+                seriesId: seriesId
+            });
         },
 
         downloads: function(query) {

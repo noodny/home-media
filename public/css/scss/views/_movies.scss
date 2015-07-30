@@ -1,0 +1,60 @@
+.movies-list {
+    .media {
+        background: $body-bg;
+        position: relative;
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+        color: #fff;
+
+        .media-image {
+            width: 100%;
+            padding-bottom: 150%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .media-object {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .media-body {
+            padding: 20px;
+            text-align: left;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background-color: rgba(black, 0.7);
+        }
+    }
+}
+
+.movies-list-horizontal {
+    .media {
+        overflow: visible;
+        padding-bottom: 40px;
+
+        @include screen(md) {
+            padding-bottom: 0;
+        }
+
+        .media-image {
+            padding-bottom: 56.25%;
+        }
+
+        @include screen(md) {
+            .media-body {
+                bottom: 0;
+                left: 50%;
+                right: 0;
+                width: 50%;
+                top: 0;
+            }
+        }
+    }
+}

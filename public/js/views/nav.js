@@ -1,12 +1,20 @@
 define([
+    'socket',
     'text!templates/nav.html'
-], function(viewTemplate) {
+], function(Socket, viewTemplate) {
     var NavView = Backbone.View.extend({
+        events: {
+            'click .update-library': 'onUpdateLibraryClick'
+        },
         initialize: function() {
             this.routes = [
                 {
                     label: 'Movies',
                     href: '#!/movies'
+                },
+                {
+                    label: 'Series',
+                    href: '#!/series'
                 },
                 {
                     label: 'Downloads',
@@ -31,6 +39,13 @@ define([
                     $el.addClass('active');
                 }
             })
+        },
+        onUpdateLibraryClick: function(event) {
+            event.preventDefault();
+            Socket.emit('library:update');
+            Socket.on('library:update:finish', function() {
+                window.location.reload();
+            });
         }
     });
     return NavView;

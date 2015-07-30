@@ -2,8 +2,9 @@ define([
     'socket',
     'message',
     'views/nav',
-    'views/player'
-], function(Socket, Message, NavView, PlayerView) {
+    'views/player',
+    'views/update'
+], function(Socket, Message, NavView, PlayerView, UpdateView) {
     var instance,
         Application = {
             initialize: function(router) {
@@ -35,6 +36,11 @@ define([
                     el: $('#player')
                 });
                 this.playerView.render();
+
+                this.updateView = new UpdateView({
+                    el: $('#update')
+                });
+                this.updateView.render();
 
                 this.router.start();
             },

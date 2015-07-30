@@ -12,9 +12,11 @@ var Model = {
                 attributes = arguments[0];
                 options = arguments[1];
             }
-        } else {
+        } else if(arguments.length === 3) {
             attributes[arguments[0]] = arguments[1];
             options = arguments[2];
+        } else {
+            attributes = arguments[0];
         }
 
         if(options && options.parse && _.isFunction(this.parse)) {
@@ -29,6 +31,8 @@ var Model = {
         }.bind(this));
 
         this.emit('change', changed);
+
+        return this;
     },
     get: function(key) {
         return this.attributes[key] || null;

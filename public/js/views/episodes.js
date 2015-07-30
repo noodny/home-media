@@ -1,20 +1,22 @@
 define([
-    'collections/movies',
+    'collections/episodes',
     'socket',
-    'text!templates/movies.html',
-    'text!templates/movies/list-item.html'
-], function(MoviesCollection, Socket, viewTemplate, itemTemplate) {
+    'text!templates/episodes.html',
+    'text!templates/episodes/list-item.html'
+], function(EpisodesCollection, Socket, viewTemplate, itemTemplate) {
     var MoviesView = Backbone.View.extend({
         events: {
             'click .item-play': 'onItemPlayClick',
             'click .item-play-continue': 'onItemContinueClick'
         },
-        initialize: function() {
-            this.collection = new MoviesCollection();
+        initialize: function(settings, options) {
+            this.collection = new EpisodesCollection({
+                seriesId: options.seriesId
+            });
         },
         render: function() {
             this.$el.html(_.template(viewTemplate));
-            this.$list = this.$('#movies-list');
+            this.$list = this.$('#episodes-list');
             this.collection.fetch().done(this.onCollectionFetch.bind(this));
         },
         renderElements: function() {

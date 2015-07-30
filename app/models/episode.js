@@ -22,6 +22,7 @@ var Episode = Model.extend({
             season: data.season_number,
             episode: data.episode_number,
             file: data._src.location + data._src.filename,
+            duration: data._src.duration,
             overview: data.overview,
             rating: data.vote_average/10,
             released: data.air_date,
