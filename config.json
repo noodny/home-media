@@ -7,7 +7,8 @@
     "videoExtensions": ["avi", "mov", "mkv", "mp4"],
     "directories": [
         "/Users/krzysztofjakubik/Movies",
-        "^/Users/krzysztofjakubik/Movies/GoPro"
+        "^/Users/krzysztofjakubik/Movies/GoPro",
+        "^/Users/krzysztofjakubik/Movies/P90"
     ],
     "tmdbApiKey": "8765e9c6e992b0f24ca4327aef03e8b8"
 }
