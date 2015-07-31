@@ -136,9 +136,9 @@ Server.prototype = {
             }
         }.bind(this));
 
-            this.restify.listen(this.config.port);
+        this.restify.listen(this.config.port);
 
-            console.log('Server listening on port ' + this.config.port);
+        console.log('Server listening on port ' + this.config.port);
     },
 
     onSocketConnection: function(socket) {
@@ -167,6 +167,7 @@ Server.prototype = {
         socket.on('downloads:stop', Downloads.stop.bind(Downloads));
 
         socket.on('library:update', Library.update.bind(Library));
+        socket.on('library:update:force', Library.forceUpdate.bind(Library));
 
         socket.on('disconnect', function() {
             delete this.sessions[socketId];

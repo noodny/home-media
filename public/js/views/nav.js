@@ -42,7 +42,7 @@ define([
         },
         onUpdateLibraryClick: function(event) {
             event.preventDefault();
-            Socket.emit('library:update');
+            Socket.emit('library:update:force');
             Socket.on('library:update:finish', function() {
                 window.location.reload();
             });
