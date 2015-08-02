@@ -74,7 +74,7 @@ Server.prototype = {
         });
 
         this.restify.get(/.*/, restify.serveStatic({
-            directory: './public',
+            directory: './public/dist/',
             default: 'index.html'
         }));
 

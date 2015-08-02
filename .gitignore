@@ -2,7 +2,8 @@
 /.sass-cache
 *.DS_Store
 /config.json
-/public/js/config.js
+/public/src/js/config.js
+/public/dist
 /data
 
 /node_modules

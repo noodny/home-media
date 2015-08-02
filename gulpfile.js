@@ -1,43 +1,62 @@
-var gulp = require('gulp'),
-    compass = require('gulp-for-compass'),
-    livereload = require('gulp-livereload'),
-    config = {
-        cssDir: 'public/css/',
-        scssDir: 'public/css/scss/',
-        fontsDir: 'public/fonts/',
-        jsDir: 'public/js/'
-    };
+var gulp = require('gulp');
+var $ = require('gulp-load-plugins')();
+var browserSync = require('browser-sync').create();
 
-gulp.task('css', function () {
-    return gulp.src(config.scssDir + '**/*.scss')
-        .pipe(compass({
-            sassDir: config.scssDir,
-            cssDir: config.cssDir,
-            fontsDir: config.fontsDir,
-            httpFontsDir: 'fonts',
-            force: true,
-            //sourcemap: true
+var globs = {
+    static: [
+        'public/src/*.html',
+        'public/src/js/**/*',
+        'public/src/img/**/*',
+        'public/src/fonts/**/*'
+    ],
+    scss: [
+        'public/src/scss/**/*.scss'
+    ]
+};
+
+function handleError(err) {
+    console.log(err.toString());
+    this.emit('end');
+}
+
+gulp.task('static', function() {
+    gulp.src(globs.static, {base: 'public/src/'})
+        .pipe($.watch(globs.static))
+        .pipe($.plumber({
+            errorHandler: handleError
         }))
-        .pipe(livereload());
+        .pipe(gulp.dest('public/dist'))
+        .on('data', browserSync.reload);
 });
 
-gulp.task('js', function () {
-    return gulp.src([config.jsDir + '**/*.js'])
-        .pipe(livereload())
+gulp.task('styles', function() {
+    gulp.src(globs.scss)
+        .pipe($.watch(globs.scss))
+        .pipe($.plumber({
+            errorHandler: handleError
+        }))
+        .pipe($.compass({
+            config_file: 'config.rb',
+            css: 'public/dist/css',
+            sass: 'public/src/scss'
+        }))
+        .pipe(gulp.dest('public/dist/css'))
+        .pipe(browserSync.stream());
 });
 
-gulp.task('html', function () {
-    return gulp.src(['public/**/*.html'])
-        .pipe(livereload())
-});
-
-gulp.task('watch', function () {
-    livereload.listen({
-        port: 35729
+gulp.task('sync', function() {
+    browserSync.init({
+        proxy: 'localhost:8888'
     });
-    gulp.watch('public/**/*.html', ['html']);
-    gulp.watch(config.scssDir + '**/*.scss', ['css']);
-    gulp.watch([config.jsDir + '**/*.js', '!' + config.jsDir + 'vendor/**/*.js'], ['js']);
 });
 
-gulp.task('default', ['css', 'watch']);
+gulp.task('server', function() {
+    $.nodemon({
+        script: 'index.js',
+        ignore: [
+            'public/*'
+        ]
+    })
+});
+
+gulp.task('default', $.sequence(['styles', 'static'], 'sync', 'server'));
