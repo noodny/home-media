@@ -28,6 +28,9 @@ module.exports = {
         if(!db) {
             this.initialize();
         }
+        if(!db[collection]) {
+            db[collection] = [];
+        }
         _.insert(db[collection], model);
         return this;
     },

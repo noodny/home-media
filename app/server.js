@@ -1,6 +1,7 @@
 var restify = require('restify'),
     _ = require('lodash'),
     socketio = require('socket.io'),
+    request = require('request'),
     Subtitles = require('./subtitles.js'),
     Downloads = new (require('./downloads.js'))(),
     Library = new (require('./library.js'))(),
@@ -8,6 +9,7 @@ var restify = require('restify'),
     Movie = require('./models/movie.js'),
     Series = require('./models/series.js'),
     Episode = require('./models/episode.js'),
+    Radio = require('./models/radio.js'),
     Db = require('./database.js');
 
 
@@ -50,6 +52,49 @@ Server.prototype = {
         this.restify.get('/library/series/:id/episodes', function(req, res, next) {
             res.send(200, Library.getEpisodes(req.params.id)).end();
             next();
+        });
+
+        this.restify.post('/radios', function(req, res, next) {
+            if(req.params.url && req.params.url.indexOf('.pls') === req.params.url.length - 4) {
+                request(req.params.url, function(error, response, body) {
+                    if(body && body.indexOf('[playlist]') > -1) {
+                        var title, streams = [];
+
+                        if(!req.params.title) {
+                            title = body.match(/Title1=(.*)/)[1];
+                        } else {
+                            title = req.params.title;
+                        }
+
+                        var matches = body.match(/File[0-9]+=(.*)/g);
+
+                        if(matches.length) {
+                            streams = matches.map(function(match) {
+                                return match.replace(/File[0-9]+=/i, '');
+                            });
+                        }
+
+                        var radio = new Radio({
+                            title: title,
+                            streams: streams,
+                            image: req.params.image || null
+                        }, {
+                            parse: true
+                        });
+
+                        radio.save();
+                        Db.save();
+                        res.send(200).end();
+                        next();
+                    } else {
+                        res.send(400).end();
+                        next();
+                    }
+                });
+            } else {
+                res.send(400, 'Missing playlist url parameter').end();
+                next();
+            }
         });
 
         this.restify.post('/downloads/add', function(req, res, next) {
