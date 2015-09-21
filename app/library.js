@@ -12,102 +12,102 @@ var EventEmitter = require('events').EventEmitter.prototype,
     Db = require('./database.js');
 
 var apiRequest = function(type, params, callback) {
-        // delay callbacks to avoid exceeding of rate limit
-        if(type === 'search') {
-            tmdb.search(params.type, params.query, function(err, res) {
-                setTimeout(callback.bind(this, res, err), 250);
-            })
+    // delay callbacks to avoid exceeding of rate limit
+    if(type === 'search') {
+        tmdb.search(params.type, params.query, function(err, res) {
+            setTimeout(callback.bind(this, res, err), 250);
+        })
+    }
+    if(type === 'episode') {
+        tmdb.episode(params.season, params.episode, params.id, function(err, res) {
+            setTimeout(callback.bind(this, res, err), 250);
+        })
+    }
+};
+var fetchSeries = function(media, callback) {
+    apiRequest('search', {
+        type: 'tv',
+        query: {
+            query: media.get('title')
         }
-        if(type === 'episode') {
-            tmdb.episode(params.season, params.episode, params.id, function(err, res) {
-                setTimeout(callback.bind(this, res, err), 250);
-            })
+    }, function(res, err) {
+        if(err) {
+            console.error('Series fetching error: ' + err);
         }
-    },
-    fetchSeries = function(media, callback) {
-        apiRequest('search', {
-            type: 'tv',
-            query: {
-                query: media.get('title')
-            }
-        }, function(res, err) {
-            if(err) {
-                console.error('Series fetching error: ' + err);
-            }
 
-            if(res && res.results && res.results.length) {
-                var series = res.results[0];
-                series.searchKey = media.getSearchKey();
+        if(res && res.results && res.results.length) {
+            var series = res.results[0];
+            series.searchKey = media.getSearchKey();
 
-                series = new Series(series, {parse: true});
-                series.save();
+            series = new Series(series, {parse: true});
+            series.save();
 
-                callback(err, series);
-            } else {
-                err = 'Series fetching error: ' + 'Series not found - ' + media.get('title');
-                console.error(err);
-                callback(err, null);
-            }
-        });
-    },
-    fetchEpisode = function(media, series, callback) {
-        apiRequest('episode', {
-            season: media.get('season'),
-            episode: media.get('episode'),
-            id: series.get('id')
-        }, function(res, err) {
-            if(err) {
-                console.error('Episode fetching error: ' + err);
-            }
+            callback(err, series);
+        } else {
+            err = 'Series fetching error: ' + 'Series not found - ' + media.get('title');
+            console.error(err);
+            callback(err, null);
+        }
+    });
+};
+var fetchEpisode = function(media, series, callback) {
+    apiRequest('episode', {
+        season: media.get('season'),
+        episode: media.get('episode'),
+        id: series.get('id')
+    }, function(res, err) {
+        if(err) {
+            console.error('Episode fetching error: ' + err);
+        }
 
-            media.markAsScanned();
+        media.markAsScanned();
 
-            if(res) {
-                var episode = res;
-                episode.seriesId = series.get('id');
-                episode._src = media.toJSON();
+        if(res) {
+            var episode = res;
+            episode.seriesId = series.get('id');
+            episode._src = media.toJSON();
 
-                episode = new Episode(episode, {parse: true});
-                episode.save();
+            episode = new Episode(episode, {parse: true});
+            episode.save();
 
-                callback(err, episode);
-            } else {
-                err = 'Episode fetching error: ' + 'Episode not found - ' + media.get('title');
-                console.error(err);
-                callback(err, null);
-            }
-        });
-    },
-    fetchMovie = function(media, callback) {
-        console.log('fetch movie ' + media.get('title'))
-        apiRequest('search', {
-            type: 'movie',
-            query: {
-                query: media.get('title'),
-                year: media.get('year')
-            }
-        }, function(res, err) {
-            if(err) {
-                console.error('Movie fetching error: ' + err);
-            }
+            callback(err, episode);
+        } else {
+            err = 'Episode fetching error: ' + 'Episode not found - ' + media.get('title');
+            console.error(err);
+            callback(err, null);
+        }
+    });
+};
 
-            media.markAsScanned();
+var fetchMovie = function(media, callback) {
+    apiRequest('search', {
+        type: 'movie',
+        query: {
+            query: media.get('title'),
+            year: media.get('year')
+        }
+    }, function(res, err) {
+        if(err) {
+            console.error('Movie fetching error: ' + err);
+        }
 
-            if(res && res.results && res.results.length) {
-                var movie = res.results[0];
-                movie._src = media.toJSON();
+        media.markAsScanned();
 
-                movie = new Movie(movie, {parse: true});
-                movie.save();
+        if(res && res.results && res.results.length) {
+            var movie = res.results[0];
+            movie._src = media.toJSON();
 
-                callback(err, movie);
-            } else {
-                err = 'Movie fetching error: ' + 'Movie not found - ' + media.get('title');
-                console.error(err);
-                callback(null, null);
-            }
-        });
-    };
+            movie = new Movie(movie, {parse: true});
+            movie.save();
+
+            callback(err, movie);
+        } else {
+            err = 'Movie fetching error: ' + 'Movie not found - ' + media.get('title');
+            console.error(err);
+            callback(null, null);
+        }
+    });
+};
 
 var Library = function() {
 };
@@ -118,7 +118,6 @@ Library.prototype = _.extend({
         Db.set('lastScan', Date.now());
 
         this.listVideoFiles(function(files) {
-            console.log(files)
             var parsed = _.map(files, function(filename) {
                 return new Media({
                     filename: filename
@@ -129,7 +128,6 @@ Library.prototype = _.extend({
 
             var counter = parsed.length;
             async.eachLimit(parsed, 1, function(media, callback) {
-                console.log(media.get('title'))
                 if(media.get('title') === null) {
                     return callback();
                 }
@@ -187,11 +185,7 @@ Library.prototype = _.extend({
         this.update(done);
     },
     getFileInfo: function(file, callback) {
-        execFile('ffprobe', [file], function(err, stdout, stderr) {
-            if(err) {
-                throw new Error(err);
-            }
-
+        execFile('ffmpeg', ['-i', file], function(err, stdout, stderr) {
             if(stdout) {
                 var duration = stdout.match(/Duration: ([0-9:]*)/);
             } else {

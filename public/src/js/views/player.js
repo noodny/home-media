@@ -4,9 +4,13 @@ define([
 ], function(Socket, viewTemplate) {
     var PlayerView = Backbone.View.extend({
         events: {
-            'click .item-play': 'onItemPlayPauseClick'
+            'click .item-play': 'onItemPlayClick'
         },
         initialize: function() {
+            Socket.socket.on('player:time', function(time) {
+                console.log(time);
+            });
+
             Socket.socket.on('player:status', function(data) {
                 console.log(data);
             });
@@ -15,7 +19,7 @@ define([
             this.$el.html(_.template(viewTemplate));
             this.$list = this.$('.navbar-nav li');
         },
-        onItemPlayPauseClick: function(event) {
+        onItemPlayClick: function(event) {
             event.preventDefault();
             Socket.emit('player:pause');
         }

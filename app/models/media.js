@@ -43,13 +43,15 @@ var Media = Model.extend({
             return str.replace('1080p', '').replace('720p', '').replace('x264', '');
         };
 
-        var title = name.match(/[a-zA-Z\. ]*/),
+        var title = name.match(/[a-zA-Z'\. ]*/),
             year = skip(name).match(/[^0-9]([0-9]{4})[^0-9]/),
             season = skip(name).match(/[^a-zA-Z]S([0-9]+)*/i),
             episode = skip(name).match(/[^a-zA-Z]E([0-9]+)*/i);
 
         if(title && title[0]) {
             title = title[0].replace(/\./g, ' ').trim();
+
+            title = title.replace(/theatrical/i, '').replace(/bluray/i, '');
 
             if(title.indexOf(' S') === title.length - 2 || title.indexOf(' s') === title.length - 2) {
                 title = title.substring(0, title.length - 2);

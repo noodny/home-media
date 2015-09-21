@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var del = require('del');
 var browserSync = require('browser-sync').create();
 
 var globs = {
@@ -21,17 +22,11 @@ function handleError(err) {
 
 gulp.task('static', function() {
     gulp.src(globs.static, {base: 'public/src/'})
-        .pipe($.watch(globs.static))
-        .pipe($.plumber({
-            errorHandler: handleError
-        }))
-        .pipe(gulp.dest('public/dist'))
-        .on('data', browserSync.reload);
+        .pipe(gulp.dest('public/dist'));
 });
 
 gulp.task('styles', function() {
     gulp.src(globs.scss)
-        .pipe($.watch(globs.scss))
         .pipe($.plumber({
             errorHandler: handleError
         }))
@@ -54,9 +49,20 @@ gulp.task('server', function() {
     $.nodemon({
         script: 'index.js',
         ignore: [
-            'public/*'
+            'public/**/*'
         ]
     })
 });
 
-gulp.task('default', $.sequence(['styles', 'static'], 'sync', 'server'));
+gulp.task('clean', function(cb) {
+    del(['public/dist/**/*'], {
+        force: true
+    }, cb);
+});
+
+gulp.task('watch', function() {
+    gulp.watch(globs.static, ['static']).on('change', browserSync.reload);
+    gulp.watch(globs.scss, ['styles']);
+});
+
+gulp.task('default', $.sequence('clean', ['styles', 'static'], 'server', 'watch', 'sync'));

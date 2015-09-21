@@ -104,14 +104,27 @@ Server.prototype = {
         var playerStatus;
         Player.on('status', function(data) {
             playerStatus = data;
+            this.io.sockets.emit('player:status', data);
+        }.bind(this));
+
+        Player.on('time', function(time) {
+            this.io.sockets.emit('player:time', time);
+        }.bind(this));
+
+        Player.on('start', function() {
+            this.io.sockets.emit('player:start');
+        }.bind(this));
+
+        Player.on('pause', function() {
+            this.io.sockets.emit('player:pause');
         }.bind(this));
 
         Player.on('play', function() {
-            console.log('player:play');
+            this.io.sockets.emit('player:play');
         }.bind(this));
 
         Player.on('stop', function() {
-            console.log('player:stop');
+            this.io.sockets.emit('player:stop');
             if(playerStatus.position) {
                 var movie = Db.find('movies', {file: playerStatus.filename}),
                     model;
@@ -151,7 +164,7 @@ Server.prototype = {
 
         socket.on('player:pause', Player.pause.bind(Player));
         socket.on('player:play', Player.play.bind(Player));
-        //socket.on('player:stop');
+        socket.on('player:stop', Player.stop.bind(Player));
         //socket.on('player:forward');
         //socket.on('player:backward');
         socket.on('player:open', function(file) {
