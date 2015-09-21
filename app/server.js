@@ -97,6 +97,11 @@ Server.prototype = {
             }
         });
 
+        this.restify.get('/radios', function(req, res, next) {
+            res.send(200, Library.get('radios')).end();
+            next();
+        });
+
         this.restify.post('/downloads/add', function(req, res, next) {
             Downloads.add({
                 url: req.params.url,
@@ -200,13 +205,6 @@ Server.prototype = {
     },
 
     onSocketConnection: function(socket) {
-        var socketId = parseInt(socket.id);
-        if(typeof this.sessions[socketId] === 'undefined') {
-            this.sessions[socketId] = {
-                busy: false
-            }
-        }
-
         socket.on('player:pause', Player.pause.bind(Player));
         socket.on('player:play', Player.play.bind(Player));
         socket.on('player:stop', Player.stop.bind(Player));
@@ -226,10 +224,6 @@ Server.prototype = {
 
         socket.on('library:update', Library.update.bind(Library));
         socket.on('library:update:force', Library.forceUpdate.bind(Library));
-
-        socket.on('disconnect', function() {
-            delete this.sessions[socketId];
-        }.bind(this));
     }
 };
 
