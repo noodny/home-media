@@ -8,14 +8,13 @@ var Radio = Model.extend({
     defaults: {
         id: null,
         title: null,
-        streams: null
+        stream: null
     },
     parse: function(data) {
-        console.log(data, md5(data.title))
         return {
             id: data.id || md5(data.title),
             title: data.title,
-            streams: data.streams || [],
+            stream: data.stream || "",
             image: data.image || null
         };
     },

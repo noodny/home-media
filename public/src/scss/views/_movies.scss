@@ -1,4 +1,5 @@
-.movies-list {
+.movies-list,
+.radio-list {
     .media {
         background: $body-bg;
         position: relative;
@@ -57,4 +58,8 @@
             }
         }
     }
+}
+
+.radio-list .media .media-image {
+    padding-bottom: 100%;
 }

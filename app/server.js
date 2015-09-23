@@ -55,10 +55,10 @@ Server.prototype = {
         });
 
         this.restify.post('/radios', function(req, res, next) {
-            if(req.params.url && req.params.url.indexOf('.pls') === req.params.url.length - 4) {
-                request(req.params.url, function(error, response, body) {
+            if(req.params.stream && req.params.stream.indexOf('.pls') === req.params.stream.length - 4) {
+                request(req.params.stream, function(error, response, body) {
                     if(body && body.indexOf('[playlist]') > -1) {
-                        var title, streams = [];
+                        var title;
 
                         if(!req.params.title) {
                             title = body.match(/Title1=(.*)/)[1];
@@ -66,17 +66,9 @@ Server.prototype = {
                             title = req.params.title;
                         }
 
-                        var matches = body.match(/File[0-9]+=(.*)/g);
-
-                        if(matches.length) {
-                            streams = matches.map(function(match) {
-                                return match.replace(/File[0-9]+=/i, '');
-                            });
-                        }
-
                         var radio = new Radio({
                             title: title,
-                            streams: streams,
+                            stream: req.params.stream,
                             image: req.params.image || null
                         }, {
                             parse: true
@@ -87,7 +79,7 @@ Server.prototype = {
                         res.send(200).end();
                         next();
                     } else {
-                        res.send(400).end();
+                        res.send(400, 'Only .pls files are accepted').end();
                         next();
                     }
                 });
@@ -210,8 +202,21 @@ Server.prototype = {
         socket.on('player:stop', Player.stop.bind(Player));
         //socket.on('player:forward');
         //socket.on('player:backward');
-        socket.on('player:open', function(file) {
-            Player.open("'" + file + "'");
+        socket.on('player:open', function(data) {
+            if(data.type) {
+                if(data.type === 'radio') {
+                    var radio = Library.getById('radios', data.id);
+                    if(radio.length) {
+                        Player.open("'" + radio[0].stream + "'", {
+                            cache: 128,
+                            cacheMin: 50,
+                            playlist: true
+                        });
+                    }
+                }
+            } else {
+                Player.open("'" + data + "'");
+            }
         });
         socket.on('player:continue', function(file, time) {
             Player.open("'" + file + "'");

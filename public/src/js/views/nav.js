@@ -17,6 +17,10 @@ define([
                     href: '#!/series'
                 },
                 {
+                    label: 'Radio',
+                    href: '#!/radio'
+                },
+                {
                     label: 'Downloads',
                     href: '#!/downloads'
                 }

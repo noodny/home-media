@@ -1,0 +1,15 @@
+<div class="col-sm-4 col-md-4 col-lg-3">
+    <div class="media">
+        <div class="media-image">
+            <img class="media-object" src="<%= model.get('image') %>" alt="">
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading"><%= model.get('title') %></h4>
+
+            <div class="buttons">
+                <a href="#" class="btn btn-default btn-block item-play" data-id="<%= model.get('id') %>"><i
+                    class="glyphicon glyphicon-play"></i> Play</a>
+            </div>
+        </div>
+    </div>
+</div>

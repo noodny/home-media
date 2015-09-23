@@ -3,8 +3,9 @@ define([
     'views/series',
     'views/episodes',
     'views/downloads',
+    'views/radio',
     'views/error'
-], function(MoviesView, SeriesView, EpisodesView, DownloadsView, ErrorView) {
+], function(MoviesView, SeriesView, EpisodesView, DownloadsView, RadioView, ErrorView) {
     var Router = Backbone.Router.extend({
         routes: {
             "": "home",
@@ -14,6 +15,7 @@ define([
             "!/series": "series",
             "!/series/:id/episodes": "episodes",
             "!/downloads(/search)(/:query)": "downloads",
+            "!/radio": "radio",
             "*error": "error"
         },
 
@@ -34,6 +36,10 @@ define([
 
         series: function() {
             this.trigger('viewChange', SeriesView);
+        },
+
+        radio: function() {
+            this.trigger('viewChange', RadioView);
         },
 
         episodes: function(seriesId) {
