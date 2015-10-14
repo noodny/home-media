@@ -2,15 +2,15 @@ var restify = require('restify'),
     _ = require('lodash'),
     socketio = require('socket.io'),
     request = require('request'),
-    Subtitles = require('./subtitles.js'),
-    Downloads = new (require('./downloads.js'))(),
-    Library = new (require('./library.js'))(),
+    Subtitles = require(__dirname + '/subtitles.js'),
+    Downloads = new (require(__dirname + '/downloads.js'))(),
+    Library = new (require(__dirname + '/library.js'))(),
     Player = new (require('mplayer'))(),
-    Movie = require('./models/movie.js'),
-    Series = require('./models/series.js'),
-    Episode = require('./models/episode.js'),
-    Radio = require('./models/radio.js'),
-    Db = require('./database.js');
+    Movie = require(__dirname + '/models/movie.js'),
+    Series = require(__dirname + '/models/series.js'),
+    Episode = require(__dirname + '/models/episode.js'),
+    Radio = require(__dirname + '/models/radio.js'),
+    Db = require(__dirname + '/database.js');
 
 
 var Server = function(config) {
@@ -116,7 +116,7 @@ Server.prototype = {
         });
 
         this.restify.get(/.*/, restify.serveStatic({
-            directory: './public/dist/',
+            directory: __dirname + '/../public/dist/',
             default: 'index.html'
         }));
 
@@ -207,10 +207,9 @@ Server.prototype = {
                 if(data.type === 'radio') {
                     var radio = Library.getById('radios', data.id);
                     if(radio.length) {
-                        Player.open("'" + radio[0].stream + "'", {
+                        Player.openPlaylist("'" + radio[0].stream + "'", {
                             cache: 128,
-                            cacheMin: 50,
-                            playlist: true
+                            cacheMin: 50
                         });
                     }
                 }
